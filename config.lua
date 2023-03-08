@@ -7,7 +7,7 @@ Config = {
     JimMenu = false,
     CookingTime = 10000,
     CoreName = "qb-core",
-    PrintDebug = true,
+    PrintDebug = false,
     StressRelief = 10,
 
 }
