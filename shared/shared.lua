@@ -24,11 +24,16 @@ function destroyProp(entity)
 	DetachEntity(entity, true, true) Wait(5)
 end
 
-function makeProp(data, freeze, synced)
+function makeProp(data, freeze, synced, placeOnGround)
     loadModel(data.prop)
     local prop = CreateObject(data.prop, data.coords.x, data.coords.y, data.coords.z-1.03, synced or 0, synced or 0, 0)
-    SetEntityHeading(prop, data.coords.w)
-    FreezeEntityPosition(prop, freeze or 0)
+    SetEntityHeading(prop, data.rotation)
+	if(freeze) then
+    	FreezeEntityPosition(prop, freeze)
+	end
+	if(placeOnGround) then
+		PlaceObjectOnGroundProperly(placeOnGround or false)
+	end
     if Config.Debug then print("^5Debug^7: ^6Prop ^2Created ^7: '^6"..prop.."^7'") end
     return prop
 end
