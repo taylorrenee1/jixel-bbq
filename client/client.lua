@@ -46,11 +46,8 @@ RegisterNetEvent('jixel-bbq:client:CreateBBQ', function(itemName, prop)
         { disableMovement = false, disableCarMovement = false, disableMouse = true, disableComabt = true, }, {}, {}, {}, function() -- Done
             Wait(300)
             ExecuteCommand("e c")
-            local x, y, z = table.unpack(coords + forward * 0.5)
-            local spawnedObj = Objects[#Objects+1] == makeProp({prop = prop, coords = vec3(x,y,z)}, true, false)
-            SetEntityHeading(spawnedObj, heading - 180)
-            PlaceObjectOnGroundProperly(spawnedObj)
-            FreezeEntityPosition(spawnedObj, true)
+            local x, y, z = table.unpack(coords + forward * 1)
+            Objects[#Objects+1] = makeProp({prop = prop, coords = vec3(x,y,z), rotation = heading}, true, false, true)
             removeobj = true
             TriggerServerEvent("jixel-bbq:server:CreateBBQ", itemName)
             i = i + 1
