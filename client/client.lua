@@ -1,5 +1,4 @@
 local QBCore = exports[Config.CoreName]:GetCoreObject()
-local removeobj = false
 local effect = "ent_amb_stoner_vent_smoke"
 local dict = "core"
 local bbqModels = {}
@@ -46,12 +45,11 @@ RegisterNetEvent('jixel-bbq:client:CreateBBQ', function(itemName, prop)
         { disableMovement = false, disableCarMovement = false, disableMouse = true, disableComabt = true, }, {}, {}, {}, function() -- Done
             Wait(300)
             ExecuteCommand("e c")
-            local x, y, z = table.unpack(coords + forward * 0.5)
+            local x, y, z = table.unpack(coords + forward * 1)
             local spawnedObj = Objects[#Objects+1] == makeProp({prop = prop, coords = vec3(x,y,z)}, true, false)
             SetEntityHeading(spawnedObj, heading - 180)
             PlaceObjectOnGroundProperly(spawnedObj)
             FreezeEntityPosition(spawnedObj, true)
-            removeobj = true
             TriggerServerEvent("jixel-bbq:server:CreateBBQ", itemName)
             i = i + 1
         end, function() -- Cancel
@@ -80,7 +78,6 @@ RegisterNetEvent('jixel-bbq:packBBQ', function()
         end
       end
 	if not inveh then
-    if removeobj == true then
 		ExecuteCommand('e mechanic4')
 		QBCore.Functions.Progressbar("deleteobj", "Packing BBQ Pit...", 2000, false, true,
         { disableMovement = false, disableCarMovement = false, disableMouse = false, disableCombat = true, }, {}, {}, {}, function() -- Done
@@ -94,7 +91,6 @@ RegisterNetEvent('jixel-bbq:packBBQ', function()
 		end, function() -- Cancel
 			ExecuteCommand('e c')
 		    end)
-        end
 	end
 end)
 
