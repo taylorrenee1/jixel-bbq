@@ -60,31 +60,16 @@ end)
 
 RegisterNetEvent('jixel-bbq:packBBQ', function()
     local inveh = IsPedInAnyVehicle(ped)
-	local PlayerPos = GetEntityCoords(ped)
-    local itemName = nil
-    local closestDistance = 696969
-    local obj = nil
-    for _, prop in pairs(Props.BBQ) do
-        local object = GetClosestObjectOfType(PlayerPos.x, PlayerPos.y, PlayerPos.z, 3.0, GetHashKey(prop.prop), false, false, false)
-        if DoesEntityExist(object) then
-          local distance = #(PlayerPos - GetEntityCoords(object))
-          if distance < closestDistance then
-            closestObject = object
-            closestDistance = distance
-            itemName = prop.itemName
-            obj = object
-          end
-        end
-      end
+	local objData = getClosestObjectProp(ped, Props.BBQ)
 	if not inveh then
     if removeobj == true then
 		ExecuteCommand('e mechanic4')
 		QBCore.Functions.Progressbar("deleteobj", "Packing BBQ Pit...", 2000, false, true,
         { disableMovement = false, disableCarMovement = false, disableMouse = false, disableCombat = true, }, {}, {}, {}, function() -- Done
 			ExecuteCommand('e c')
-			DeleteObject(obj)
+			DeleteObject(objData.obj)
 			triggerNotify(nil, 'BBQ packed away', 'success')
-			TriggerServerEvent('jixel-bbq:server:packBBQ', itemName)
+			TriggerServerEvent('jixel-bbq:server:packBBQ', objData.itemname)
 			removeobj = false
 			Wait(500)
 			ClearPedTasks(ped)
@@ -161,9 +146,11 @@ end)
 
     RegisterNetEvent('jixel-bbq:Crafting:MakeItem', function(data)
         print("jixel-bbq:Crafting:MakeItem called with data:", json.encode(data.craft))
-        local progbar, animDict1, anim1, prop, inveh, pedcoords, heading, forward, forwardy, itemLabel = "", "", "", "", IsPedInAnyVehicle(ped), GetEntityCoords(ped), GetEntityHeading(ped), GetEntityForwardVector(ped), GetEntityForwardX(ped), QBCore.Shared.Items[data.item].label
-        local x, y, z = table.unpack({pedcoords + forward * forwardy * -0.5})
-        --local x, y, z = table.unpack(GetOffsetFromEntityInWorldCoords(bbqModels , 0.1, -0.1, 1.445))
+
+        local progbar, animDict1, anim1, prop, inveh, pedcoords, itemLabel = "", "", "", "", IsPedInAnyVehicle(ped), GetEntityCoords(ped), QBCore.Shared.Items[data.item].label
+        local objData = getClosestObjectProp(ped, Props.BBQ)
+        local objCoord = GetEntityCoords(objData.obj);
+        local x, y, z = objCoord.x, objCoord.y, objCoord.z + 0.95
         if data.craftable == Crafting.Prepare then
             progbar = Loc[Config.Lan].progressbar["progress_cooking"]
             animDict1 = "amb@prop_human_parking_meter@male@idle_a"
@@ -186,8 +173,10 @@ end)
         if not inveh then -- Checks if not in vehicle
             local spawnedObj = CreateObject(prop, x, y, z, true, false, false)
             print("Spawned object ID: ", spawnedObj)
-            SetEntityHeading(spawnedObj, heading)
-            print("Set object heading: ", heading)
+            print(objCoord)
+            print(GetEntityCoords(ped))
+            print(" Coords of :".." X:"..x.." Y:"..y.." Z:"..z)
+            -- print("Set object heading: ", heading)
             FreezeEntityPosition(spawnedObj, prop)
             UseParticleFxAssetNextCall("core")
             local particle = StartParticleFxLoopedAtCoord("ent_amb_stoner_vent_smoke", pedcoords.x, pedcoords.y+0.05, pedcoords.z, 0.0, 0.0, 0.0, 1.0, false, false, false, false)
