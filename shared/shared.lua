@@ -1,7 +1,7 @@
 print("^2Jixel^7-^2BBQ ^7v^41^7.^41 - ^2Script by ^1Taylor^7")
 
 local QBCore = exports[Config.CoreName]:GetCoreObject()
-RegisterNetEvent('QBCore:Client:UpdateObject', function() QBCore = exports[Config.Core]:GetCoreObject() end)
+RegisterNetEvent('QBCore:Client:UpdateObject', function() QBCore = exports[Config.CoreName]:GetCoreObject() end)
 
 function loadModel(model)
     local time = 1000
