@@ -88,12 +88,12 @@ RegisterNetEvent('jixel-bbq:server:CreateBBQ', function(itemName)
     TriggerClientEvent("inventory:client:ItemBox", src, QBCore.Shared.Items[itemName], "remove")
 end)
 
-RegisterNetEvent('jixel-bbq:server:packBBQ', function(itemName)
+RegisterNetEvent('jixel-bbq:server:packBBQ', function(objectData)
     local src = source
 	local Player = QBCore.Functions.GetPlayer(source)
 	if not Player then return end
-	Player.Functions.AddItem(itemName, 1)
-    TriggerClientEvent("inventory:client:ItemBox", src, QBCore.Shared.Items[itemName], "add")
+	Player.Functions.AddItem(objectData.itemName, 1)
+    TriggerClientEvent("inventory:client:ItemBox", src, QBCore.Shared.Items[objectData.itemName], "add")
 end)
 
 ---Crafting

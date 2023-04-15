@@ -65,9 +65,9 @@ RegisterNetEvent('jixel-bbq:packBBQ', function()
 		QBCore.Functions.Progressbar("deleteobj", "Packing BBQ Pit...", 2000, false, true,
         { disableMovement = false, disableCarMovement = false, disableMouse = false, disableCombat = true, }, {}, {}, {}, function() -- Done
 			ExecuteCommand('e c')
-			DeleteObject(objData.obj)
 			triggerNotify(nil, 'BBQ packed away', 'success')
-			TriggerServerEvent('jixel-bbq:server:packBBQ', objData.itemname)
+			destroyProp(objData.obj)
+			TriggerServerEvent('jixel-bbq:server:packBBQ', objData)
 			removeobj = false
 			Wait(500)
 			ClearPedTasks(ped)
