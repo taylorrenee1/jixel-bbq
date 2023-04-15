@@ -46,7 +46,7 @@ RegisterNetEvent('jixel-bbq:client:CreateBBQ', function(itemName, prop)
             Wait(300)
             ExecuteCommand("e c")
             local x, y, z = table.unpack(coords + forward * 1)
-            Objects[#Objects+1] = makeProp({prop = prop, coords = vec3(x,y,z), rotation = heading}, true, false, true)
+            Objects[#Objects+1] = makeProp({prop = prop, coords = vec3(x,y,z), rotation = heading}, true, true, true)
             removeobj = true
             TriggerServerEvent("jixel-bbq:server:CreateBBQ", itemName)
             i = i + 1
@@ -65,7 +65,7 @@ RegisterNetEvent('jixel-bbq:packBBQ', function()
 		QBCore.Functions.Progressbar("deleteobj", "Packing BBQ Pit...", 2000, false, true,
         { disableMovement = false, disableCarMovement = false, disableMouse = false, disableCombat = true, }, {}, {}, {}, function() -- Done
 			ExecuteCommand('e c')
-			DeleteObject(objData.obj)
+			destroyProp(objData.obj)
 			triggerNotify(nil, 'BBQ packed away', 'success')
 			TriggerServerEvent('jixel-bbq:server:packBBQ', objData.itemname)
 			removeobj = false
