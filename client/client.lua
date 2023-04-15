@@ -46,7 +46,7 @@ RegisterNetEvent('jixel-bbq:client:CreateBBQ', function(itemName, prop)
             Wait(300)
             ExecuteCommand("e c")
             local x, y, z = table.unpack(coords + forward * 1)
-            Objects[#Objects+1] = makeProp({prop = prop, coords = vec3(x,y,z), rotation = heading}, true, true, true)
+            Objects[#Objects+1] = makeProp({prop = prop, coords = vec3(x,y,z), rotation = heading}, true, false, true)
             removeobj = true
             TriggerServerEvent("jixel-bbq:server:CreateBBQ", itemName)
             i = i + 1
