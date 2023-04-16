@@ -1,5 +1,19 @@
 local QBCore = exports[Config.CoreName]:GetCoreObject()
 
+function HasItem(source, items, amount)
+	local amount, count = amount or 1, 0
+	local Player = QBCore.Functions.GetPlayer(source)
+	if Config.Debug then print("^5Debug^7: ^3HasItem^7: ^2Checking if player has required item^7 '^3"..tostring(items).."^7'") end
+	for _, itemData in pairs(Player.PlayerData.items) do
+		if itemData and (itemData.name == items) then
+			if Config.Debug then print("^5Debug^7: ^3HasItem^7: ^2Item^7: '^3"..tostring(items).."^7' ^2Slot^7: ^3"..itemData.slot.." ^7x(^3"..tostring(itemData.amount).."^7)") end
+			count += itemData.amount
+		end
+	end
+	if count >= amount then if Config.Debug then print("^5Debug^7: ^3HasItem^7: ^2Items ^5FOUND^7 x^3"..count.."^7") end return true end
+	if Config.Debug then print("^5Debug^7: ^3HasItem^7: ^2Items ^1NOT FOUND^7") end    return false
+end
+
 RegisterNetEvent('jixel-bbq:cookbeef', function(amount)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
