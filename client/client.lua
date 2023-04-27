@@ -90,10 +90,10 @@ RegisterNetEvent('jixel-bbq:Crafting', function(data)
 			if k ~= "amount" then
 				local text = ""
 				if QBCore.Shared.Items[tostring(k)] == nil then
-                if Config.PrintDebug then print("^3Error^7: ^2Script can't find item in QB-Core items.lua - ^1"..k.."^7") end
+					print("^3Error^7: ^2Script can't find item in QB-Core items.lua - ^1"..k.."^7")
                     return
-                  end
-                  setheader = QBCore.Shared.Items[tostring(k)].label
+				end
+				setheader = QBCore.Shared.Items[tostring(k)].label
 				if data.craftable[i]["amount"] ~= nil then setheader = setheader.." x"..data.craftable[i]["amount"] end
 				local disable = false
 				local checktable = {}

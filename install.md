@@ -34,6 +34,7 @@ Thank you to Zero for having an existential crisis with me over getting this to 
     ['steak']						= {['name'] = 'steak', 			    			['label'] = 'Steak', 				['weight'] = 100, 		['type'] = 'item', 		['image'] = 'steak.png', 					['unique'] = false, 	['useable'] = false, 	['shouldClose'] = true,	   		['combinable'] = nil,   ['description'] = ''},
     ['porkchop']						= {['name'] = 'porkchop', 			    			['label'] = 'Pork Chop', 				['weight'] = 100, 		['type'] = 'item', 		['image'] = 'porkchop.png', 					['unique'] = false, 	['useable'] = false, 	['shouldClose'] = true,	   		['combinable'] = nil,   ['description'] = ''},
     ['cheeseburger']						= {['name'] = 'cheeseburger', 			    			['label'] = 'Cheese Burger', 				['weight'] = 100, 		['type'] = 'item', 		['image'] = 'cheeseburger.png', 					['unique'] = false, 	['useable'] = false, 	['shouldClose'] = true,	   		['combinable'] = nil,   ['description'] = ''},
+    ['hamburger']						= {['name'] = 'hamburger', 			    			['label'] = 'Ham Burger', 				['weight'] = 100, 		['type'] = 'item', 		['image'] = 'hamburger.png', 					['unique'] = false, 	['useable'] = false, 	['shouldClose'] = true,	   		['combinable'] = nil,   ['description'] = ''},
 
 ## Animations
 <!-- If you have RPEmotes or Scully Emotes this could already be in your emotes menu however I've provided a snippet for you otherwise -->
