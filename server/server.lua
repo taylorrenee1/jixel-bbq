@@ -1,4 +1,5 @@
 local QBCore = exports[Config.CoreName]:GetCoreObject()
+local BBQOjects = {}
 
 function HasItem(source, items, amount)
 	local amount, count = amount or 1, 0
@@ -94,20 +95,24 @@ RegisterNetEvent('jixel-bbq:cookburger', function(amount)
     end
 end)
 
-RegisterNetEvent('jixel-bbq:server:CreateBBQ', function(itemName)
+RegisterNetEvent('jixel-bbq:server:CreateBBQ', function(itemName, netId)
     local src = source
     local player = QBCore.Functions.GetPlayer(src)
     if not player then return end
+	BBQOjects[netId] = itemName
     player.Functions.RemoveItem(itemName, 1)
     TriggerClientEvent("inventory:client:ItemBox", src, QBCore.Shared.Items[itemName], "remove")
 end)
 
-RegisterNetEvent('jixel-bbq:server:packBBQ', function(itemName,netId )
+RegisterNetEvent('jixel-bbq:server:packBBQ', function(netId)
+	if not BBQOjects[netId] then return end
     local src = source
 	local Player = QBCore.Functions.GetPlayer(src)
 	DeleteEntity(NetworkGetEntityFromNetworkId(netId))
 	if not Player then return end
-	Player.Functions.AddItem(itemName, 1)
+	print(BBQOjects[netId])
+	Player.Functions.AddItem(BBQOjects[netId], 1)
+	BBQOjects[netId] = nil
     TriggerClientEvent("inventory:client:ItemBox", src, QBCore.Shared.Items[itemName], "add")
 end)
 
