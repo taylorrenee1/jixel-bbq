@@ -17,7 +17,12 @@ CreateThread(function()
     exports['qb-target']:AddTargetModel(bbqModels, {
         options = {
             { event = "jixel-bbq:client:bbqMenu", icon = "fas fa-burger", label = Loc[Config.Lan].target["start"] },
-            { event = "jixel-bbq:packBBQ", icon = "Fas fa-hands", label = Loc[Config.Lan].target["remove"] }, },
+            {
+				action = function(entity)
+					TriggerEvent("jixel-bbq:packBBQ", entity)
+				end,
+				icon = "Fas fa-hands",
+				label = Loc[Config.Lan].target["remove"] }, },
         distance = 1.5 })
 end)
 
@@ -46,9 +51,10 @@ RegisterNetEvent('jixel-bbq:client:CreateBBQ', function(itemName, prop)
             Wait(300)
             ExecuteCommand("e c")
             local x, y, z = table.unpack(coords + forward * 1)
-            Objects[#Objects+1] = makeProp({prop = prop, coords = vec3(x,y,z), rotation = heading}, true, true, true)
-            removeobj = true
-            TriggerServerEvent("jixel-bbq:server:CreateBBQ", itemName)
+			local object = makeProp({prop = prop, coords = vec3(x,y,z), rotation = heading}, true, true, true)
+            Objects[#Objects+1] = object
+			local netid = ObjToNet(object)
+            TriggerServerEvent("jixel-bbq:server:CreateBBQ", itemName, netid)
             i = i + 1
         end, function() -- Cancel
             ClearPedTasksImmediately(ped)
@@ -57,18 +63,16 @@ RegisterNetEvent('jixel-bbq:client:CreateBBQ', function(itemName, prop)
     end
 end)
 
-RegisterNetEvent('jixel-bbq:packBBQ', function()
+RegisterNetEvent('jixel-bbq:packBBQ', function(entity)
     local inveh = IsPedInAnyVehicle(ped)
-	local objData = getClosestObjectProp(ped, Props.BBQ)
 	if not inveh then
 		ExecuteCommand('e mechanic4')
 		QBCore.Functions.Progressbar("deleteobj", "Packing BBQ Pit...", 2000, false, true,
         { disableMovement = false, disableCarMovement = false, disableMouse = false, disableCombat = true, }, {}, {}, {}, function() -- Done
 			ExecuteCommand('e c')
 			triggerNotify(nil, 'BBQ packed away', 'success')
-			local objNetID = NetworkGetNetworkIdFromEntity(objData.obj)
-			TriggerServerEvent('jixel-bbq:server:packBBQ', objData.itemname, objNetID)
-			removeobj = false
+			local netID = NetworkGetNetworkIdFromEntity(entity)
+			TriggerServerEvent('jixel-bbq:server:packBBQ',netID)
 			Wait(500)
 			ClearPedTasks(ped)
 		end, function() -- Cancel
